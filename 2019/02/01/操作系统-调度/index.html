@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Linux,OS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="调度三级调度机制：高级调度、中级调度和低级调度1. 高级调度（作业调度）作业调度决定外存上后备队列上哪些作业可以调入内存，并为它们创建进程、分配必要的资源，然后将新创建的进程插入到就绪队列，准备运行。 作业调度决定: 1) 接纳多少个作业 2) 接纳哪些作业 2. 低级调度（进程调度）进程调度用于决定就绪队列中的哪些进程可以获得cpu，然后在有分派进程执行把cpu分配给进程的具体操作。 进程调度有">
+<meta name="keywords" content="Linux,OS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统_调度">
+<meta property="og:url" content="http://yoursite.com/2019/02/01/操作系统-调度/index.html">
+<meta property="og:site_name" content="Clelo4&#39;s Blog">
+<meta property="og:description" content="调度三级调度机制：高级调度、中级调度和低级调度1. 高级调度（作业调度）作业调度决定外存上后备队列上哪些作业可以调入内存，并为它们创建进程、分配必要的资源，然后将新创建的进程插入到就绪队列，准备运行。 作业调度决定: 1) 接纳多少个作业 2) 接纳哪些作业 2. 低级调度（进程调度）进程调度用于决定就绪队列中的哪些进程可以获得cpu，然后在有分派进程执行把cpu分配给进程的具体操作。 进程调度有">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-02-01T15:30:38.203Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="操作系统_调度">
+<meta name="twitter:description" content="调度三级调度机制：高级调度、中级调度和低级调度1. 高级调度（作业调度）作业调度决定外存上后备队列上哪些作业可以调入内存，并为它们创建进程、分配必要的资源，然后将新创建的进程插入到就绪队列，准备运行。 作业调度决定: 1) 接纳多少个作业 2) 接纳哪些作业 2. 低级调度（进程调度）进程调度用于决定就绪队列中的哪些进程可以获得cpu，然后在有分派进程执行把cpu分配给进程的具体操作。 进程调度有">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/02/01/操作系统-调度/">
+
+
+
+
+
+  <title>操作系统_调度 | Clelo4's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Clelo4's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">移动学习笔记</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            Schedule
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            Commonweal 404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/01/操作系统-调度/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Clelo4">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Clelo4's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">操作系统_调度</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-01T21:57:07+08:00">
+                2019-02-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/OS/" itemprop="url" rel="index">
+                    <span itemprop="name">OS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="调度"><a href="#调度" class="headerlink" title="调度"></a>调度</h1><h2 id="三级调度机制：高级调度、中级调度和低级调度"><a href="#三级调度机制：高级调度、中级调度和低级调度" class="headerlink" title="三级调度机制：高级调度、中级调度和低级调度"></a>三级调度机制：高级调度、中级调度和低级调度</h2><h3 id="1-高级调度（作业调度）"><a href="#1-高级调度（作业调度）" class="headerlink" title="1. 高级调度（作业调度）"></a>1. 高级调度（作业调度）</h3><p>作业调度决定外存上后备队列上哪些作业可以调入内存，并为它们创建进程、分配必要的资源，然后将新创建的进程插入到就绪队列，准备运行。</p>
+<p>作业调度决定:</p>
+<pre><code>1) 接纳多少个作业
+2) 接纳哪些作业
+</code></pre><h3 id="2-低级调度（进程调度）"><a href="#2-低级调度（进程调度）" class="headerlink" title="2. 低级调度（进程调度）"></a>2. 低级调度（进程调度）</h3><p>进程调度用于决定就绪队列中的哪些进程可以获得cpu，然后在有分派进程执行把cpu分配给进程的具体操作。</p>
+<p>进程调度有两种方式：</p>
+<pre><code>1) 抢占式
+2) 非抢占式
+</code></pre><h3 id="3-中级调度"><a href="#3-中级调度" class="headerlink" title="3. 中级调度"></a>3. 中级调度</h3><p>挂起和激活，存储器管理中的对换功能。主要目的是为了提高内存的利用率和系统的吞吐量。<br>调度程序</p>
+<p>………</p>
+<h2 id="面向用户的调度性能准则"><a href="#面向用户的调度性能准则" class="headerlink" title="面向用户的调度性能准则"></a>面向用户的调度性能准则</h2><ol>
+<li>周转时间：作业从提交（作业调度进入内存）到完成（得到结果）所经历的时间。包括在等待队列、cpu上执行、就绪队列和阻塞队列中等待时间、结果输出等待。<ul>
+<li>平均周转时间</li>
+<li>平均带圈周转时间 = 周转时间/CPU执行时间</li>
+</ul>
+</li>
+<li>响应时间：用户输入一个请求到系统给出首次响应的时间</li>
+<li>截止时间：开始截止时间和完成截止时间</li>
+<li>公平性</li>
+<li>优先级</li>
+</ol>
+<h2 id="面向系统的调度性能准则"><a href="#面向系统的调度性能准则" class="headerlink" title="面向系统的调度性能准则"></a>面向系统的调度性能准则</h2><ol>
+<li>吞吐量：单位时间内所能完成的作业数。</li>
+<li>处理机利用率：— 大中型主机</li>
+<li>各种设备的均衡利用</li>
+</ol>
+<h2 id="调度算法"><a href="#调度算法" class="headerlink" title="调度算法"></a>调度算法</h2><ol>
+<li>先来先服务FCFS</li>
+<li>短作业（进程）优先调度算法</li>
+<li>高优先级优先调度算法</li>
+<li>高响应比优先调度算法</li>
+<li>基于时间片的轮转调度算法</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/tags/OS/" rel="tag"># OS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/01/CSS定位模型/" rel="prev" title="CSS定位模型">
+                CSS定位模型 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Clelo4">
+            
+              <p class="site-author-name" itemprop="name">Clelo4</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Clelo4" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.facebook.com/junjie.cheng.7106" target="_blank" title="Facebook">
+                      
+                        <i class="fa fa-fw fa-facebook"></i>Facebook</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#调度"><span class="nav-number">1.</span> <span class="nav-text">调度</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#三级调度机制：高级调度、中级调度和低级调度"><span class="nav-number">1.1.</span> <span class="nav-text">三级调度机制：高级调度、中级调度和低级调度</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-高级调度（作业调度）"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. 高级调度（作业调度）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-低级调度（进程调度）"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. 低级调度（进程调度）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-中级调度"><span class="nav-number">1.1.3.</span> <span class="nav-text">3. 中级调度</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#面向用户的调度性能准则"><span class="nav-number">1.2.</span> <span class="nav-text">面向用户的调度性能准则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#面向系统的调度性能准则"><span class="nav-number">1.3.</span> <span class="nav-text">面向系统的调度性能准则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调度算法"><span class="nav-number">1.4.</span> <span class="nav-text">调度算法</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clelo4</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

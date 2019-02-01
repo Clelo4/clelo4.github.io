@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="C/C++,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="C风格字符串1. 引言在c++中，字符串的表示有两类，一类是继承自c的c风格字符串，另一类是c++的string类。string类简单易用，但c风格字符串更加灵活，同时也更加难用。 2. char基本类型char的长度为1个字节，可以表示256个不同的字符。1std::cout &amp;lt;&amp;lt; sizeof(a) &amp;lt;&amp;lt; std::endl; // 结果为1 3. char的几种字符串">
+<meta name="keywords" content="C&#x2F;C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C风格字符串">
+<meta property="og:url" content="http://yoursite.com/2019/02/01/C风格字符串/index.html">
+<meta property="og:site_name" content="Clelo4&#39;s Blog">
+<meta property="og:description" content="C风格字符串1. 引言在c++中，字符串的表示有两类，一类是继承自c的c风格字符串，另一类是c++的string类。string类简单易用，但c风格字符串更加灵活，同时也更加难用。 2. char基本类型char的长度为1个字节，可以表示256个不同的字符。1std::cout &amp;lt;&amp;lt; sizeof(a) &amp;lt;&amp;lt; std::endl; // 结果为1 3. char的几种字符串">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-02-01T15:30:23.568Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C风格字符串">
+<meta name="twitter:description" content="C风格字符串1. 引言在c++中，字符串的表示有两类，一类是继承自c的c风格字符串，另一类是c++的string类。string类简单易用，但c风格字符串更加灵活，同时也更加难用。 2. char基本类型char的长度为1个字节，可以表示256个不同的字符。1std::cout &amp;lt;&amp;lt; sizeof(a) &amp;lt;&amp;lt; std::endl; // 结果为1 3. char的几种字符串">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/02/01/C风格字符串/">
+
+
+
+
+
+  <title>C风格字符串 | Clelo4's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Clelo4's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">移动学习笔记</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            Schedule
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            Commonweal 404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/01/C风格字符串/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Clelo4">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Clelo4's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">C风格字符串</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-01T23:10:57+08:00">
+                2019-02-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/C-C/" itemprop="url" rel="index">
+                    <span itemprop="name">C/C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="C风格字符串"><a href="#C风格字符串" class="headerlink" title="C风格字符串"></a>C风格字符串</h1><h2 id="1-引言"><a href="#1-引言" class="headerlink" title="1. 引言"></a>1. 引言</h2><p>在c++中，字符串的表示有两类，一类是继承自c的c风格字符串，另一类是c++的string类。string类简单易用，但c风格字符串更加灵活，同时也更加难用。</p>
+<h2 id="2-char基本类型"><a href="#2-char基本类型" class="headerlink" title="2. char基本类型"></a>2. char基本类型</h2><p>char的长度为1个字节，可以表示256个不同的字符。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="keyword">sizeof</span>(a) &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>; <span class="comment">// 结果为1</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="3-char的几种字符串表示方式"><a href="#3-char的几种字符串表示方式" class="headerlink" title="3. char的几种字符串表示方式"></a>3. char的几种字符串表示方式</h2><p>数组方式<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> a[] = <span class="string">"Hello"</span>;</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="keyword">sizeof</span>(a) &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>; <span class="comment">// 输出结果为6</span></span><br><span class="line"><span class="keyword">char</span> a1[] = &#123;<span class="string">'H'</span>, <span class="string">'e'</span>,<span class="string">'l'</span>, <span class="string">'l'</span>, <span class="string">'o'</span>&#125;;</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="keyword">sizeof</span>(a1) &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>; <span class="comment">// 输出结果为5</span></span><br></pre></td></tr></table></figure></p>
+<p>什么数组a的长度为6呢？正常来说应该是5才对。其实，在这里a使用字符字面量”Hello”进行初始化，应该说是c风格的字符串（虽然它本质上是数组）。而c风格字符串的最大特点就是：字符串的结尾一定以’\0’字符结尾。<br>所以，编译器会自动在Hello后面添加’\0’字符，a的实际长度变为6.</p>
+<p>数组a与普通char型数组的区别：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> b[<span class="number">5</span>] = <span class="string">"Hello"</span>; <span class="comment">// 错误</span></span><br><span class="line"><span class="keyword">char</span> c[<span class="number">6</span>] = <span class="string">"Hello"</span>; <span class="comment">// 正确，c风格字符串</span></span><br><span class="line"><span class="keyword">char</span> d[<span class="number">5</span>] = &#123;<span class="string">'H'</span>, <span class="string">'e'</span>, <span class="string">'l'</span>, <span class="string">'l'</span>, <span class="string">'o'</span>&#125;; <span class="comment">// 正确，d是普通的数组，不是c风格字符串</span></span><br><span class="line"><span class="keyword">char</span> e[] = <span class="string">"Hello"</span>; <span class="comment">// 正确，风格字符串</span></span><br></pre></td></tr></table></figure></p>
+<p>从上面可以看出，当用字符字面量”Hello”初始化char型数组时（不包括const型），要么不指定数组的长度，要么指定的长度必须 &gt;= 字符串字符字面量的长度+1。</p>
+<p>指针方式<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *f = <span class="string">"Hello"</span>; <span class="comment">// 错误，不能用一个字符串字面量初始化给一个char*型变量</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> *f1 = <span class="string">"Hello"</span>; <span class="comment">// 正确，可以用一个字符串字面量初始化给一个const char*型变量。c风格字符串</span></span><br><span class="line"><span class="keyword">char</span> g[] = <span class="string">"Hello"</span>; <span class="comment">// 正确，c风格字符串</span></span><br><span class="line"><span class="keyword">char</span> *h = g; <span class="comment">// 正确，c风格字符串</span></span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="keyword">sizeof</span>(h) &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>; <span class="comment">// 打印出机器的指针长度</span></span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; h &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>; <span class="comment">// 打印出Hello</span></span><br></pre></td></tr></table></figure></p>
+<p>除了在声明中或者当一个数组名是sizeof运算符或&amp;运算符的操作数外，编译器总是把数组名解释成指向它的第一个元素的指针。所以，实质上g是个指针，g赋值给h是正确的。</p>
+<p>由于h是个char型指针，所以它的长度取决于机器的指针长度，并不是字符串的长度。</p>
+<p>g在内存中的数据是’H’, ‘l’, ‘l’, ‘e’, ‘o’, ‘\0’. 由于h指向g，所以直接打印h时是输出”Hello”的。以下是错误的示例<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> i[<span class="number">5</span>] = &#123;<span class="string">'H'</span>, <span class="string">'e'</span>, <span class="string">'l'</span>, <span class="string">'l'</span>, <span class="string">'o'</span>&#125;; <span class="comment">// 普通数组，非c风格字符串</span></span><br><span class="line"><span class="keyword">char</span> *j = i;</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; j &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>; <span class="comment">// 打印出乱码</span></span><br></pre></td></tr></table></figure></p>
+<p>在上面示例中，j不能算是c风格字符串。因为它不能保证*(j+5)一定是’\0’，所以std::cout会一直打印j之后的内存数据直到遇到’\0’才停止。</p>
+<p>疑点<br>为什么同样是使用字符串字面量初始化c风格字符串，指针方式不同于数组方式呢？看下面例子：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *str1 = <span class="string">"Hello"</span>; <span class="comment">// 错误</span></span><br><span class="line"><span class="keyword">char</span> str2[] = <span class="string">"Hello"</span>; <span class="comment">// 正确</span></span><br><span class="line"></span><br><span class="line">数组一种长度不可变的复合类型，所以使用字符串字面量初始化str2时是没问题的。</span><br><span class="line"></span><br><span class="line">而str1是一个可变长度（内容的长度，不是指针的长度）的<span class="keyword">char</span>型指针，所以不能使用字符串字面量这种常量初始化<span class="keyword">char</span>型指。但如果加个<span class="keyword">const</span>限定符就可以</span><br><span class="line">``` C++</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> *str3 = <span class="string">"Hello"</span>; <span class="comment">// 正确</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="3-总结"><a href="#3-总结" class="headerlink" title="3. 总结"></a>3. 总结</h2><p>c风格字符串最大的特点就是以’\0’结尾。它有数组和指针两种表现方式。在实际使用过程，要将它与普通的char型数组区分开来（虽然c风格字符串可以是char型数组），在初始化和赋值操作等方面。两者容易混淆。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> A[] = <span class="string">"Hello"</span>; <span class="comment">// 正确，C风格字符串</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> *A1 = <span class="string">"Hello"</span>; <span class="comment">// 正确，C风格字符串</span></span><br><span class="line"><span class="keyword">char</span> B[<span class="number">5</span>] = <span class="string">"Hello"</span>; <span class="comment">//错误</span></span><br><span class="line"><span class="keyword">char</span> C[<span class="number">5</span>] = &#123;<span class="string">'H'</span>, <span class="string">'e'</span>,<span class="string">'l'</span>, <span class="string">'l'</span>, <span class="string">'o'</span>&#125; <span class="comment">// 正确，不是C风格字符串</span></span><br><span class="line"><span class="keyword">char</span> D[] = &#123;<span class="string">'H'</span>, <span class="string">'e'</span>, <span class="string">'l'</span>, <span class="string">'l'</span>, <span class="string">'o'</span>&#125; <span class="comment">// 正确，等价于上面，不是C风格字符串</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C-C/" rel="tag"># C/C++</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/01/C-array-and-pointer/" rel="next" title="C array and pointer">
+                <i class="fa fa-chevron-left"></i> C array and pointer
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/01/RESET/" rel="prev" title="RESET">
+                RESET <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Clelo4">
+            
+              <p class="site-author-name" itemprop="name">Clelo4</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Clelo4" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.facebook.com/junjie.cheng.7106" target="_blank" title="Facebook">
+                      
+                        <i class="fa fa-fw fa-facebook"></i>Facebook</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#C风格字符串"><span class="nav-number">1.</span> <span class="nav-text">C风格字符串</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-引言"><span class="nav-number">1.1.</span> <span class="nav-text">1. 引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-char基本类型"><span class="nav-number">1.2.</span> <span class="nav-text">2. char基本类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-char的几种字符串表示方式"><span class="nav-number">1.3.</span> <span class="nav-text">3. char的几种字符串表示方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-总结"><span class="nav-number">1.4.</span> <span class="nav-text">3. 总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clelo4</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
