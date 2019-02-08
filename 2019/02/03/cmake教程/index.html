@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="cmake,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1. 基础指令1.1 PROJECT用法: PROJECT( [LANGUAGES] […])解释: 设置项目的名字,并存储名字在变量PROJECT_NAME中,还额外设置其他变量 PROJECT_SOURCE_DIR PROJECT_BINARY_DIR  1.2 MESSAGE用法: MESSAGE([] “message to display” … )解释: 可选关键字定义了消息的类型 (n">
+<meta name="keywords" content="cmake">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cmake教程">
+<meta property="og:url" content="http://yoursite.com/2019/02/03/cmake教程/index.html">
+<meta property="og:site_name" content="Clelo4&#39;s Blog">
+<meta property="og:description" content="1. 基础指令1.1 PROJECT用法: PROJECT( [LANGUAGES] […])解释: 设置项目的名字,并存储名字在变量PROJECT_NAME中,还额外设置其他变量 PROJECT_SOURCE_DIR PROJECT_BINARY_DIR  1.2 MESSAGE用法: MESSAGE([] “message to display” … )解释: 可选关键字定义了消息的类型 (n">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-02-03T06:18:36.930Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="cmake教程">
+<meta name="twitter:description" content="1. 基础指令1.1 PROJECT用法: PROJECT( [LANGUAGES] […])解释: 设置项目的名字,并存储名字在变量PROJECT_NAME中,还额外设置其他变量 PROJECT_SOURCE_DIR PROJECT_BINARY_DIR  1.2 MESSAGE用法: MESSAGE([] “message to display” … )解释: 可选关键字定义了消息的类型 (n">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/02/03/cmake教程/">
+
+
+
+
+
+  <title>cmake教程 | Clelo4's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Clelo4's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">移动学习笔记</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            Schedule
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            Commonweal 404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/03/cmake教程/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Clelo4">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Clelo4's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">cmake教程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-03T10:29:07+08:00">
+                2019-02-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/cmake/" itemprop="url" rel="index">
+                    <span itemprop="name">cmake</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-基础指令"><a href="#1-基础指令" class="headerlink" title="1. 基础指令"></a>1. 基础指令</h1><h2 id="1-1-PROJECT"><a href="#1-1-PROJECT" class="headerlink" title="1.1 PROJECT"></a>1.1 PROJECT</h2><h3 id="用法-PROJECT-LANGUAGES-…"><a href="#用法-PROJECT-LANGUAGES-…" class="headerlink" title="用法: PROJECT( [LANGUAGES] […])"></a>用法: PROJECT(<project-name> [LANGUAGES] [<language-name>…])</language-name></project-name></h3><h3 id="解释-设置项目的名字-并存储名字在变量PROJECT-NAME中-还额外设置其他变量"><a href="#解释-设置项目的名字-并存储名字在变量PROJECT-NAME中-还额外设置其他变量" class="headerlink" title="解释: 设置项目的名字,并存储名字在变量PROJECT_NAME中,还额外设置其他变量"></a>解释: 设置项目的名字,并存储名字在变量PROJECT_NAME中,还额外设置其他变量</h3><ul>
+<li>PROJECT_SOURCE_DIR</li>
+<li>PROJECT_BINARY_DIR</li>
+</ul>
+<h2 id="1-2-MESSAGE"><a href="#1-2-MESSAGE" class="headerlink" title="1.2 MESSAGE"></a>1.2 MESSAGE</h2><h3 id="用法-MESSAGE-“message-to-display”-…"><a href="#用法-MESSAGE-“message-to-display”-…" class="headerlink" title="用法: MESSAGE([] “message to display” … )"></a>用法: MESSAGE([<mode>] “message to display” … )</mode></h3><h3 id="解释-可选关键字定义了消息的类型"><a href="#解释-可选关键字定义了消息的类型" class="headerlink" title="解释: 可选关键字定义了消息的类型"></a>解释: 可选关键字<mode>定义了消息的类型</mode></h3><ul>
+<li>(none)         = Important information</li>
+<li>STATUS         = Incidental information</li>
+<li>WARNING        = CMake Warning, continue processing</li>
+<li>AUTHOR_WARNING = CMake Warning (dev), continue processing</li>
+<li>SEND_ERROR     = CMake Error, continue processing, but skip generation</li>
+<li>FATAL_ERROR    = CMake Error, stop processing and generation</li>
+<li>DEPRECATION    = CMake Deprecation Error or Warning if variable CMAKE_ERROR_DEPRECATED or CMAKE_WARN_DEPRECATED is enabled, respectively, else no message.</li>
+</ul>
+<h2 id="1-3-ADD-EXECUTABLE"><a href="#1-3-ADD-EXECUTABLE" class="headerlink" title="1.3 ADD_EXECUTABLE"></a>1.3 ADD_EXECUTABLE</h2><h3 id="用法-ADD-EXECUTABLE-WIN32-MACOSX-BUNDLE-EXCLUDE-FROM-ALL-source1-source2-…"><a href="#用法-ADD-EXECUTABLE-WIN32-MACOSX-BUNDLE-EXCLUDE-FROM-ALL-source1-source2-…" class="headerlink" title="用法: ADD_EXECUTABLE( [WIN32] [MACOSX_BUNDLE] [EXCLUDE_FROM_ALL] source1 [source2 …])"></a>用法: ADD_EXECUTABLE(<name> [WIN32] [MACOSX_BUNDLE] [EXCLUDE_FROM_ALL] source1 [source2 …])</name></h3><h3 id="解释-从源文件中生成可执行的目标文件-目标文件的名字为"><a href="#解释-从源文件中生成可执行的目标文件-目标文件的名字为" class="headerlink" title="解释: 从源文件中生成可执行的目标文件,目标文件的名字为"></a>解释: 从源文件中生成可执行的目标文件,目标文件的名字为<name></name></h3><h2 id="1-4-ADD-SUBDIRECTORY"><a href="#1-4-ADD-SUBDIRECTORY" class="headerlink" title="1.4 ADD_SUBDIRECTORY"></a>1.4 ADD_SUBDIRECTORY</h2><h3 id="用法-ADD-SUBDIRECTORY-source-dir-binary-dir-EXCLUDE-FROM-ALL"><a href="#用法-ADD-SUBDIRECTORY-source-dir-binary-dir-EXCLUDE-FROM-ALL" class="headerlink" title="用法: ADD_SUBDIRECTORY(source_dir [binary_dir] [EXCLUDE_FROM_ALL])"></a>用法: ADD_SUBDIRECTORY(source_dir [binary_dir] [EXCLUDE_FROM_ALL])</h3><h3 id="解释-向当前工程添加存放源文件的子目录-并可以指定中间二进制和目标二进制存放的位置。EXCLUDE-FROM-ALL-参数的含义是将这个目录从编译过程中排除-比如-工程的-example-可能就需要工程构建完成后-再进入-example-目录单独进行构建-当然-你也可以通过定义依赖来解决此类问题-。"><a href="#解释-向当前工程添加存放源文件的子目录-并可以指定中间二进制和目标二进制存放的位置。EXCLUDE-FROM-ALL-参数的含义是将这个目录从编译过程中排除-比如-工程的-example-可能就需要工程构建完成后-再进入-example-目录单独进行构建-当然-你也可以通过定义依赖来解决此类问题-。" class="headerlink" title="解释: 向当前工程添加存放源文件的子目录, 并可以指定中间二进制和目标二进制存放的位置。EXCLUDE_FROM_ALL 参数的含义是将这个目录从编译过程中排除,比如,工程的 example,可能就需要工程构建完成后,再进入 example 目录单独进行构建(当然,你也可以通过定义依赖来解决此类问题)。"></a>解释: 向当前工程添加存放源文件的子目录, 并可以指定中间二进制和目标二进制存放的位置。EXCLUDE_FROM_ALL 参数的含义是将这个目录从编译过程中排除,比如,工程的 example,可能就需要工程构建完成后,再进入 example 目录单独进行构建(当然,你也可以通过定义依赖来解决此类问题)。</h3><h2 id="1-5-SET"><a href="#1-5-SET" class="headerlink" title="1.5 SET"></a>1.5 SET</h2><h3 id="用法-SET-…-PARENT-SCOPE"><a href="#用法-SET-…-PARENT-SCOPE" class="headerlink" title="用法: SET( … [PARENT_SCOPE])"></a>用法: SET(<variable> <value>… [PARENT_SCOPE])</value></variable></h3><h3 id="解释-显式设置变量值或定义变量"><a href="#解释-显式设置变量值或定义变量" class="headerlink" title="解释: 显式设置变量值或定义变量"></a>解释: 显式设置变量值或定义变量</h3><p>例子: </p>
+<h3 id="1-5-1"><a href="#1-5-1" class="headerlink" title="1.5.1"></a>1.5.1</h3><p>通过SET指令重新定义EXECUTABLE_OUTPUT_PATH和LIBRARY_OUTPUT_PATH变量来指定最终的目标二进制的位置(指最终生成的 hello 或者最终的共享库,不包含编译生成<br>的中间文件)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SET(EXECUTABLE_OUTPUT_PATH $&#123;PROJECT_BINARY_DIR&#125;/bin)</span><br><span class="line">SET(LIBRARY_OUTPUT_PATH  $&#123;PROJECT_BINARY_DIR&#125;/lib)</span><br></pre></td></tr></table></figure>
+<h2 id="1-6-ADD-LIBRARY"><a href="#1-6-ADD-LIBRARY" class="headerlink" title="1.6 ADD_LIBRARY"></a>1.6 ADD_LIBRARY</h2><h3 id="用法-ADD-LIBRARY-libname-SHARED-STATIC-MODULE-EXCLUDE-FROM-ALL-source1-source2-…-sourceN"><a href="#用法-ADD-LIBRARY-libname-SHARED-STATIC-MODULE-EXCLUDE-FROM-ALL-source1-source2-…-sourceN" class="headerlink" title="用法: ADD_LIBRARY(libname [SHARED|STATIC|MODULE] [EXCLUDE_FROM_ALL] source1 source2 … sourceN)"></a>用法: ADD_LIBRARY(libname [SHARED|STATIC|MODULE] [EXCLUDE_FROM_ALL] source1 source2 … sourceN)</h3><h3 id="解释-编译共享库-类型有三种"><a href="#解释-编译共享库-类型有三种" class="headerlink" title="解释: 编译共享库,类型有三种:"></a>解释: 编译共享库,类型有三种:</h3><ul>
+<li>SHARED,动态库</li>
+<li>STATIC,静态库</li>
+<li>MODULE,在使用 dyld 的系统有效,如果不支持 dyld,则被当作 SHARED 对待。</li>
+</ul>
+<h2 id="1-7-SET-TARGET-PROPERTIES"><a href="#1-7-SET-TARGET-PROPERTIES" class="headerlink" title="1.7 SET_TARGET_PROPERTIES"></a>1.7 SET_TARGET_PROPERTIES</h2><h3 id="用法-SET-TARGET-PROPERTIES-target1-target-2-…-PROPERTIES-prop1-value1-prop2-value2-…"><a href="#用法-SET-TARGET-PROPERTIES-target1-target-2-…-PROPERTIES-prop1-value1-prop2-value2-…" class="headerlink" title="用法: SET_TARGET_PROPERTIES(target1 target 2 … PROPERTIES prop1 value1 prop2 value2 …)"></a>用法: SET_TARGET_PROPERTIES(target1 target 2 … PROPERTIES prop1 value1 prop2 value2 …)</h3><h3 id="解释"><a href="#解释" class="headerlink" title="解释:"></a>解释:</h3><h3 id="1-7-1-例子-设置target输出的名称"><a href="#1-7-1-例子-设置target输出的名称" class="headerlink" title="1.7.1 例子: 设置target输出的名称"></a>1.7.1 例子: 设置target输出的名称</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span>(LIBHELLO_SRC hello.c)</span><br><span class="line"><span class="keyword">SET</span>(LIBRARY_OUTPUT_PATH <span class="variable">$&#123;PROJECT_BINARY_DIR&#125;</span>/lib)</span><br><span class="line"></span><br><span class="line"><span class="keyword">ADD_LIBRARY</span>(libhello SHARED <span class="variable">$&#123;LIBHELLO_SRC&#125;</span>)</span><br><span class="line"><span class="keyword">ADD_LIBRARY</span>(libhello_static STATIC <span class="variable">$&#123;LIBHELLO_SRC&#125;</span>)</span><br><span class="line"><span class="keyword">SET_TARGET_PROPERTIES</span>(libhello_static PROPERTIES OUTPUT_NAME <span class="string">"libhello"</span>)</span><br></pre></td></tr></table></figure>
+<p>因为 target名称是唯一的, 所以通过SET_TARGET_PROPERTIES指令来设置输出的名称.这样就可以同时得到libhello.so 和libhello.a两个库了.</p>
+<h2 id="1-8-GET-TARGET-PROPERTY"><a href="#1-8-GET-TARGET-PROPERTY" class="headerlink" title="1.8 GET_TARGET_PROPERTY"></a>1.8 GET_TARGET_PROPERTY</h2><h3 id="用法-GET-TARGET-PROPERTY-VAR-target-property"><a href="#用法-GET-TARGET-PROPERTY-VAR-target-property" class="headerlink" title="用法: GET_TARGET_PROPERTY(VAR target property)"></a>用法: GET_TARGET_PROPERTY(VAR target property)</h3><h3 id="解释-获取target的property值存于VAR变量中"><a href="#解释-获取target的property值存于VAR变量中" class="headerlink" title="解释: 获取target的property值存于VAR变量中"></a>解释: 获取target的property值存于VAR变量中</h3><h2 id="1-9-INCLUDE-DIRECTORIES"><a href="#1-9-INCLUDE-DIRECTORIES" class="headerlink" title="1.9 INCLUDE_DIRECTORIES"></a>1.9 INCLUDE_DIRECTORIES</h2><h3 id="用法-INCLUDE-DIRECTORIES-AFTER-BEFORE-SYSTEM-dir1-dir2-…"><a href="#用法-INCLUDE-DIRECTORIES-AFTER-BEFORE-SYSTEM-dir1-dir2-…" class="headerlink" title="用法: INCLUDE_DIRECTORIES([AFTER|BEFORE] [SYSTEM] dir1 dir2 …)"></a>用法: INCLUDE_DIRECTORIES([AFTER|BEFORE] [SYSTEM] dir1 dir2 …)</h3><h3 id="解释-用来向工程添加多个特定的头文件搜索路径"><a href="#解释-用来向工程添加多个特定的头文件搜索路径" class="headerlink" title="解释: 用来向工程添加多个特定的头文件搜索路径"></a>解释: 用来向工程添加多个特定的头文件搜索路径</h3><h2 id="1-10-LINK-DIRECTORIES"><a href="#1-10-LINK-DIRECTORIES" class="headerlink" title="1.10 LINK_DIRECTORIES"></a>1.10 LINK_DIRECTORIES</h2><h3 id="用法-LINK-DIRECTORIES-directory1-directory2-…"><a href="#用法-LINK-DIRECTORIES-directory1-directory2-…" class="headerlink" title="用法: LINK_DIRECTORIES(directory1 directory2 …)"></a>用法: LINK_DIRECTORIES(directory1 directory2 …)</h3><h3 id="解释-添加非标准的共享库搜索路径"><a href="#解释-添加非标准的共享库搜索路径" class="headerlink" title="解释: 添加非标准的共享库搜索路径"></a>解释: 添加非标准的共享库搜索路径</h3><h2 id="1-11-TARGET-LINK-LIBRARIES"><a href="#1-11-TARGET-LINK-LIBRARIES" class="headerlink" title="1.11 TARGET_LINK_LIBRARIES"></a>1.11 TARGET_LINK_LIBRARIES</h2><h3 id="用法-TARGET-LINK-LIBRARIES-target-library1-library2-…"><a href="#用法-TARGET-LINK-LIBRARIES-target-library1-library2-…" class="headerlink" title="用法: TARGET_LINK_LIBRARIES(target library1  library2 …)"></a>用法: TARGET_LINK_LIBRARIES(target library1 <debug |="" optimized=""> library2 …)</debug></h3><h3 id="解释-为target-添加需要链接的共享库"><a href="#解释-为target-添加需要链接的共享库" class="headerlink" title="解释: 为target 添加需要链接的共享库"></a>解释: 为target 添加需要链接的共享库</h3><h1 id="2-隐式变量"><a href="#2-隐式变量" class="headerlink" title="2. 隐式变量"></a>2. 隐式变量</h1><h2 id="2-1-PROJECT-BINARY-DIR"><a href="#2-1-PROJECT-BINARY-DIR" class="headerlink" title="2.1 PROJECT_BINARY_DIR"></a>2.1 PROJECT_BINARY_DIR</h2><h2 id="2-2-PROJECT-SOURCE-DIR"><a href="#2-2-PROJECT-SOURCE-DIR" class="headerlink" title="2.2 PROJECT_SOURCE_DIR"></a>2.2 PROJECT_SOURCE_DIR</h2>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/cmake/" rel="tag"># cmake</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/01/RESET/" rel="next" title="RESET">
+                <i class="fa fa-chevron-left"></i> RESET
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Clelo4">
+            
+              <p class="site-author-name" itemprop="name">Clelo4</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Clelo4" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.facebook.com/junjie.cheng.7106" target="_blank" title="Facebook">
+                      
+                        <i class="fa fa-fw fa-facebook"></i>Facebook</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-基础指令"><span class="nav-number">1.</span> <span class="nav-text">1. 基础指令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-PROJECT"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 PROJECT</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用法-PROJECT-LANGUAGES-…"><span class="nav-number">1.1.1.</span> <span class="nav-text">用法: PROJECT( [LANGUAGES] […])</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解释-设置项目的名字-并存储名字在变量PROJECT-NAME中-还额外设置其他变量"><span class="nav-number">1.1.2.</span> <span class="nav-text">解释: 设置项目的名字,并存储名字在变量PROJECT_NAME中,还额外设置其他变量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-MESSAGE"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 MESSAGE</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用法-MESSAGE-“message-to-display”-…"><span class="nav-number">1.2.1.</span> <span class="nav-text">用法: MESSAGE([] “message to display” … )</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解释-可选关键字定义了消息的类型"><span class="nav-number">1.2.2.</span> <span class="nav-text">解释: 可选关键字定义了消息的类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-ADD-EXECUTABLE"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 ADD_EXECUTABLE</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用法-ADD-EXECUTABLE-WIN32-MACOSX-BUNDLE-EXCLUDE-FROM-ALL-source1-source2-…"><span class="nav-number">1.3.1.</span> <span class="nav-text">用法: ADD_EXECUTABLE( [WIN32] [MACOSX_BUNDLE] [EXCLUDE_FROM_ALL] source1 [source2 …])</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解释-从源文件中生成可执行的目标文件-目标文件的名字为"><span class="nav-number">1.3.2.</span> <span class="nav-text">解释: 从源文件中生成可执行的目标文件,目标文件的名字为</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-ADD-SUBDIRECTORY"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 ADD_SUBDIRECTORY</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用法-ADD-SUBDIRECTORY-source-dir-binary-dir-EXCLUDE-FROM-ALL"><span class="nav-number">1.4.1.</span> <span class="nav-text">用法: ADD_SUBDIRECTORY(source_dir [binary_dir] [EXCLUDE_FROM_ALL])</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解释-向当前工程添加存放源文件的子目录-并可以指定中间二进制和目标二进制存放的位置。EXCLUDE-FROM-ALL-参数的含义是将这个目录从编译过程中排除-比如-工程的-example-可能就需要工程构建完成后-再进入-example-目录单独进行构建-当然-你也可以通过定义依赖来解决此类问题-。"><span class="nav-number">1.4.2.</span> <span class="nav-text">解释: 向当前工程添加存放源文件的子目录, 并可以指定中间二进制和目标二进制存放的位置。EXCLUDE_FROM_ALL 参数的含义是将这个目录从编译过程中排除,比如,工程的 example,可能就需要工程构建完成后,再进入 example 目录单独进行构建(当然,你也可以通过定义依赖来解决此类问题)。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-SET"><span class="nav-number">1.5.</span> <span class="nav-text">1.5 SET</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用法-SET-…-PARENT-SCOPE"><span class="nav-number">1.5.1.</span> <span class="nav-text">用法: SET( … [PARENT_SCOPE])</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解释-显式设置变量值或定义变量"><span class="nav-number">1.5.2.</span> <span class="nav-text">解释: 显式设置变量值或定义变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-1"><span class="nav-number">1.5.3.</span> <span class="nav-text">1.5.1</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-6-ADD-LIBRARY"><span class="nav-number">1.6.</span> <span class="nav-text">1.6 ADD_LIBRARY</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用法-ADD-LIBRARY-libname-SHARED-STATIC-MODULE-EXCLUDE-FROM-ALL-source1-source2-…-sourceN"><span class="nav-number">1.6.1.</span> <span class="nav-text">用法: ADD_LIBRARY(libname [SHARED|STATIC|MODULE] [EXCLUDE_FROM_ALL] source1 source2 … sourceN)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解释-编译共享库-类型有三种"><span class="nav-number">1.6.2.</span> <span class="nav-text">解释: 编译共享库,类型有三种:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-7-SET-TARGET-PROPERTIES"><span class="nav-number">1.7.</span> <span class="nav-text">1.7 SET_TARGET_PROPERTIES</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用法-SET-TARGET-PROPERTIES-target1-target-2-…-PROPERTIES-prop1-value1-prop2-value2-…"><span class="nav-number">1.7.1.</span> <span class="nav-text">用法: SET_TARGET_PROPERTIES(target1 target 2 … PROPERTIES prop1 value1 prop2 value2 …)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解释"><span class="nav-number">1.7.2.</span> <span class="nav-text">解释:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-7-1-例子-设置target输出的名称"><span class="nav-number">1.7.3.</span> <span class="nav-text">1.7.1 例子: 设置target输出的名称</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-8-GET-TARGET-PROPERTY"><span class="nav-number">1.8.</span> <span class="nav-text">1.8 GET_TARGET_PROPERTY</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用法-GET-TARGET-PROPERTY-VAR-target-property"><span class="nav-number">1.8.1.</span> <span class="nav-text">用法: GET_TARGET_PROPERTY(VAR target property)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解释-获取target的property值存于VAR变量中"><span class="nav-number">1.8.2.</span> <span class="nav-text">解释: 获取target的property值存于VAR变量中</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-9-INCLUDE-DIRECTORIES"><span class="nav-number">1.9.</span> <span class="nav-text">1.9 INCLUDE_DIRECTORIES</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用法-INCLUDE-DIRECTORIES-AFTER-BEFORE-SYSTEM-dir1-dir2-…"><span class="nav-number">1.9.1.</span> <span class="nav-text">用法: INCLUDE_DIRECTORIES([AFTER|BEFORE] [SYSTEM] dir1 dir2 …)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解释-用来向工程添加多个特定的头文件搜索路径"><span class="nav-number">1.9.2.</span> <span class="nav-text">解释: 用来向工程添加多个特定的头文件搜索路径</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-10-LINK-DIRECTORIES"><span class="nav-number">1.10.</span> <span class="nav-text">1.10 LINK_DIRECTORIES</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用法-LINK-DIRECTORIES-directory1-directory2-…"><span class="nav-number">1.10.1.</span> <span class="nav-text">用法: LINK_DIRECTORIES(directory1 directory2 …)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解释-添加非标准的共享库搜索路径"><span class="nav-number">1.10.2.</span> <span class="nav-text">解释: 添加非标准的共享库搜索路径</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-11-TARGET-LINK-LIBRARIES"><span class="nav-number">1.11.</span> <span class="nav-text">1.11 TARGET_LINK_LIBRARIES</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用法-TARGET-LINK-LIBRARIES-target-library1-library2-…"><span class="nav-number">1.11.1.</span> <span class="nav-text">用法: TARGET_LINK_LIBRARIES(target library1  library2 …)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解释-为target-添加需要链接的共享库"><span class="nav-number">1.11.2.</span> <span class="nav-text">解释: 为target 添加需要链接的共享库</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-隐式变量"><span class="nav-number">2.</span> <span class="nav-text">2. 隐式变量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-PROJECT-BINARY-DIR"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 PROJECT_BINARY_DIR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-PROJECT-SOURCE-DIR"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 PROJECT_SOURCE_DIR</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Clelo4</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

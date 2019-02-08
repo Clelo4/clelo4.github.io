@@ -277,6 +277,170 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/03/cmake教程/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Clelo4">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Clelo4's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/03/cmake教程/" itemprop="url">cmake教程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-03T10:29:07+08:00">
+                2019-02-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/cmake/" itemprop="url" rel="index">
+                    <span itemprop="name">cmake</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="1-基础指令"><a href="#1-基础指令" class="headerlink" title="1. 基础指令"></a>1. 基础指令</h1><h2 id="1-1-PROJECT"><a href="#1-1-PROJECT" class="headerlink" title="1.1 PROJECT"></a>1.1 PROJECT</h2><h3 id="用法-PROJECT-LANGUAGES-…"><a href="#用法-PROJECT-LANGUAGES-…" class="headerlink" title="用法: PROJECT( [LANGUAGES] […])"></a>用法: PROJECT(<project-name> [LANGUAGES] [<language-name>…])</language-name></project-name></h3><h3 id="解释-设置项目的名字-并存储名字在变量PROJECT-NAME中-还额外设置其他变量"><a href="#解释-设置项目的名字-并存储名字在变量PROJECT-NAME中-还额外设置其他变量" class="headerlink" title="解释: 设置项目的名字,并存储名字在变量PROJECT_NAME中,还额外设置其他变量"></a>解释: 设置项目的名字,并存储名字在变量PROJECT_NAME中,还额外设置其他变量</h3><ul>
+<li>PROJECT_SOURCE_DIR</li>
+<li>PROJECT_BINARY_DIR</li>
+</ul>
+<h2 id="1-2-MESSAGE"><a href="#1-2-MESSAGE" class="headerlink" title="1.2 MESSAGE"></a>1.2 MESSAGE</h2><h3 id="用法-MESSAGE-“message-to-display”-…"><a href="#用法-MESSAGE-“message-to-display”-…" class="headerlink" title="用法: MESSAGE([] “message to display” … )"></a>用法: MESSAGE([<mode>] “message to display” … )</mode></h3><h3 id="解释-可选关键字定义了消息的类型"><a href="#解释-可选关键字定义了消息的类型" class="headerlink" title="解释: 可选关键字定义了消息的类型"></a>解释: 可选关键字<mode>定义了消息的类型</mode></h3><ul>
+<li>(none)         = Important information</li>
+<li>STATUS         = Incidental information</li>
+<li>WARNING        = CMake Warning, continue processing</li>
+<li>AUTHOR_WARNING = CMake Warning (dev), continue processing</li>
+<li>SEND_ERROR     = CMake Error, continue processing, but skip generation</li>
+<li>FATAL_ERROR    = CMake Error, stop processing and generation</li>
+<li>DEPRECATION    = CMake Deprecation Error or Warning if variable CMAKE_ERROR_DEPRECATED or CMAKE_WARN_DEPRECATED is enabled, respectively, else no message.</li>
+</ul>
+<h2 id="1-3-ADD-EXECUTABLE"><a href="#1-3-ADD-EXECUTABLE" class="headerlink" title="1.3 ADD_EXECUTABLE"></a>1.3 ADD_EXECUTABLE</h2><h3 id="用法-ADD-EXECUTABLE-WIN32-MACOSX-BUNDLE-EXCLUDE-FROM-ALL-source1-source2-…"><a href="#用法-ADD-EXECUTABLE-WIN32-MACOSX-BUNDLE-EXCLUDE-FROM-ALL-source1-source2-…" class="headerlink" title="用法: ADD_EXECUTABLE( [WIN32] [MACOSX_BUNDLE] [EXCLUDE_FROM_ALL] source1 [source2 …])"></a>用法: ADD_EXECUTABLE(<name> [WIN32] [MACOSX_BUNDLE] [EXCLUDE_FROM_ALL] source1 [source2 …])</name></h3><h3 id="解释-从源文件中生成可执行的目标文件-目标文件的名字为"><a href="#解释-从源文件中生成可执行的目标文件-目标文件的名字为" class="headerlink" title="解释: 从源文件中生成可执行的目标文件,目标文件的名字为"></a>解释: 从源文件中生成可执行的目标文件,目标文件的名字为<name></name></h3><h2 id="1-4-ADD-SUBDIRECTORY"><a href="#1-4-ADD-SUBDIRECTORY" class="headerlink" title="1.4 ADD_SUBDIRECTORY"></a>1.4 ADD_SUBDIRECTORY</h2><h3 id="用法-ADD-SUBDIRECTORY-source-dir-binary-dir-EXCLUDE-FROM-ALL"><a href="#用法-ADD-SUBDIRECTORY-source-dir-binary-dir-EXCLUDE-FROM-ALL" class="headerlink" title="用法: ADD_SUBDIRECTORY(source_dir [binary_dir] [EXCLUDE_FROM_ALL])"></a>用法: ADD_SUBDIRECTORY(source_dir [binary_dir] [EXCLUDE_FROM_ALL])</h3><h3 id="解释-向当前工程添加存放源文件的子目录-并可以指定中间二进制和目标二进制存放的位置。EXCLUDE-FROM-ALL-参数的含义是将这个目录从编译过程中排除-比如-工程的-example-可能就需要工程构建完成后-再进入-example-目录单独进行构建-当然-你也可以通过定义依赖来解决此类问题-。"><a href="#解释-向当前工程添加存放源文件的子目录-并可以指定中间二进制和目标二进制存放的位置。EXCLUDE-FROM-ALL-参数的含义是将这个目录从编译过程中排除-比如-工程的-example-可能就需要工程构建完成后-再进入-example-目录单独进行构建-当然-你也可以通过定义依赖来解决此类问题-。" class="headerlink" title="解释: 向当前工程添加存放源文件的子目录, 并可以指定中间二进制和目标二进制存放的位置。EXCLUDE_FROM_ALL 参数的含义是将这个目录从编译过程中排除,比如,工程的 example,可能就需要工程构建完成后,再进入 example 目录单独进行构建(当然,你也可以通过定义依赖来解决此类问题)。"></a>解释: 向当前工程添加存放源文件的子目录, 并可以指定中间二进制和目标二进制存放的位置。EXCLUDE_FROM_ALL 参数的含义是将这个目录从编译过程中排除,比如,工程的 example,可能就需要工程构建完成后,再进入 example 目录单独进行构建(当然,你也可以通过定义依赖来解决此类问题)。</h3><h2 id="1-5-SET"><a href="#1-5-SET" class="headerlink" title="1.5 SET"></a>1.5 SET</h2><h3 id="用法-SET-…-PARENT-SCOPE"><a href="#用法-SET-…-PARENT-SCOPE" class="headerlink" title="用法: SET( … [PARENT_SCOPE])"></a>用法: SET(<variable> <value>… [PARENT_SCOPE])</value></variable></h3><h3 id="解释-显式设置变量值或定义变量"><a href="#解释-显式设置变量值或定义变量" class="headerlink" title="解释: 显式设置变量值或定义变量"></a>解释: 显式设置变量值或定义变量</h3><p>例子: </p>
+<h3 id="1-5-1"><a href="#1-5-1" class="headerlink" title="1.5.1"></a>1.5.1</h3><p>通过SET指令重新定义EXECUTABLE_OUTPUT_PATH和LIBRARY_OUTPUT_PATH变量来指定最终的目标二进制的位置(指最终生成的 hello 或者最终的共享库,不包含编译生成<br>的中间文件)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SET(EXECUTABLE_OUTPUT_PATH $&#123;PROJECT_BINARY_DIR&#125;/bin)</span><br><span class="line">SET(LIBRARY_OUTPUT_PATH  $&#123;PROJECT_BINARY_DIR&#125;/lib)</span><br></pre></td></tr></table></figure>
+<h2 id="1-6-ADD-LIBRARY"><a href="#1-6-ADD-LIBRARY" class="headerlink" title="1.6 ADD_LIBRARY"></a>1.6 ADD_LIBRARY</h2><h3 id="用法-ADD-LIBRARY-libname-SHARED-STATIC-MODULE-EXCLUDE-FROM-ALL-source1-source2-…-sourceN"><a href="#用法-ADD-LIBRARY-libname-SHARED-STATIC-MODULE-EXCLUDE-FROM-ALL-source1-source2-…-sourceN" class="headerlink" title="用法: ADD_LIBRARY(libname [SHARED|STATIC|MODULE] [EXCLUDE_FROM_ALL] source1 source2 … sourceN)"></a>用法: ADD_LIBRARY(libname [SHARED|STATIC|MODULE] [EXCLUDE_FROM_ALL] source1 source2 … sourceN)</h3><h3 id="解释-编译共享库-类型有三种"><a href="#解释-编译共享库-类型有三种" class="headerlink" title="解释: 编译共享库,类型有三种:"></a>解释: 编译共享库,类型有三种:</h3><ul>
+<li>SHARED,动态库</li>
+<li>STATIC,静态库</li>
+<li>MODULE,在使用 dyld 的系统有效,如果不支持 dyld,则被当作 SHARED 对待。</li>
+</ul>
+<h2 id="1-7-SET-TARGET-PROPERTIES"><a href="#1-7-SET-TARGET-PROPERTIES" class="headerlink" title="1.7 SET_TARGET_PROPERTIES"></a>1.7 SET_TARGET_PROPERTIES</h2><h3 id="用法-SET-TARGET-PROPERTIES-target1-target-2-…-PROPERTIES-prop1-value1-prop2-value2-…"><a href="#用法-SET-TARGET-PROPERTIES-target1-target-2-…-PROPERTIES-prop1-value1-prop2-value2-…" class="headerlink" title="用法: SET_TARGET_PROPERTIES(target1 target 2 … PROPERTIES prop1 value1 prop2 value2 …)"></a>用法: SET_TARGET_PROPERTIES(target1 target 2 … PROPERTIES prop1 value1 prop2 value2 …)</h3><h3 id="解释"><a href="#解释" class="headerlink" title="解释:"></a>解释:</h3><h3 id="1-7-1-例子-设置target输出的名称"><a href="#1-7-1-例子-设置target输出的名称" class="headerlink" title="1.7.1 例子: 设置target输出的名称"></a>1.7.1 例子: 设置target输出的名称</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span>(LIBHELLO_SRC hello.c)</span><br><span class="line"><span class="keyword">SET</span>(LIBRARY_OUTPUT_PATH <span class="variable">$&#123;PROJECT_BINARY_DIR&#125;</span>/lib)</span><br><span class="line"></span><br><span class="line"><span class="keyword">ADD_LIBRARY</span>(libhello SHARED <span class="variable">$&#123;LIBHELLO_SRC&#125;</span>)</span><br><span class="line"><span class="keyword">ADD_LIBRARY</span>(libhello_static STATIC <span class="variable">$&#123;LIBHELLO_SRC&#125;</span>)</span><br><span class="line"><span class="keyword">SET_TARGET_PROPERTIES</span>(libhello_static PROPERTIES OUTPUT_NAME <span class="string">"libhello"</span>)</span><br></pre></td></tr></table></figure>
+<p>因为 target名称是唯一的, 所以通过SET_TARGET_PROPERTIES指令来设置输出的名称.这样就可以同时得到libhello.so 和libhello.a两个库了.</p>
+<h2 id="1-8-GET-TARGET-PROPERTY"><a href="#1-8-GET-TARGET-PROPERTY" class="headerlink" title="1.8 GET_TARGET_PROPERTY"></a>1.8 GET_TARGET_PROPERTY</h2><h3 id="用法-GET-TARGET-PROPERTY-VAR-target-property"><a href="#用法-GET-TARGET-PROPERTY-VAR-target-property" class="headerlink" title="用法: GET_TARGET_PROPERTY(VAR target property)"></a>用法: GET_TARGET_PROPERTY(VAR target property)</h3><h3 id="解释-获取target的property值存于VAR变量中"><a href="#解释-获取target的property值存于VAR变量中" class="headerlink" title="解释: 获取target的property值存于VAR变量中"></a>解释: 获取target的property值存于VAR变量中</h3><h2 id="1-9-INCLUDE-DIRECTORIES"><a href="#1-9-INCLUDE-DIRECTORIES" class="headerlink" title="1.9 INCLUDE_DIRECTORIES"></a>1.9 INCLUDE_DIRECTORIES</h2><h3 id="用法-INCLUDE-DIRECTORIES-AFTER-BEFORE-SYSTEM-dir1-dir2-…"><a href="#用法-INCLUDE-DIRECTORIES-AFTER-BEFORE-SYSTEM-dir1-dir2-…" class="headerlink" title="用法: INCLUDE_DIRECTORIES([AFTER|BEFORE] [SYSTEM] dir1 dir2 …)"></a>用法: INCLUDE_DIRECTORIES([AFTER|BEFORE] [SYSTEM] dir1 dir2 …)</h3><h3 id="解释-用来向工程添加多个特定的头文件搜索路径"><a href="#解释-用来向工程添加多个特定的头文件搜索路径" class="headerlink" title="解释: 用来向工程添加多个特定的头文件搜索路径"></a>解释: 用来向工程添加多个特定的头文件搜索路径</h3><h2 id="1-10-LINK-DIRECTORIES"><a href="#1-10-LINK-DIRECTORIES" class="headerlink" title="1.10 LINK_DIRECTORIES"></a>1.10 LINK_DIRECTORIES</h2><h3 id="用法-LINK-DIRECTORIES-directory1-directory2-…"><a href="#用法-LINK-DIRECTORIES-directory1-directory2-…" class="headerlink" title="用法: LINK_DIRECTORIES(directory1 directory2 …)"></a>用法: LINK_DIRECTORIES(directory1 directory2 …)</h3><h3 id="解释-添加非标准的共享库搜索路径"><a href="#解释-添加非标准的共享库搜索路径" class="headerlink" title="解释: 添加非标准的共享库搜索路径"></a>解释: 添加非标准的共享库搜索路径</h3><h2 id="1-11-TARGET-LINK-LIBRARIES"><a href="#1-11-TARGET-LINK-LIBRARIES" class="headerlink" title="1.11 TARGET_LINK_LIBRARIES"></a>1.11 TARGET_LINK_LIBRARIES</h2><h3 id="用法-TARGET-LINK-LIBRARIES-target-library1-library2-…"><a href="#用法-TARGET-LINK-LIBRARIES-target-library1-library2-…" class="headerlink" title="用法: TARGET_LINK_LIBRARIES(target library1  library2 …)"></a>用法: TARGET_LINK_LIBRARIES(target library1 <debug |="" optimized=""> library2 …)</debug></h3><h3 id="解释-为target-添加需要链接的共享库"><a href="#解释-为target-添加需要链接的共享库" class="headerlink" title="解释: 为target 添加需要链接的共享库"></a>解释: 为target 添加需要链接的共享库</h3><h1 id="2-隐式变量"><a href="#2-隐式变量" class="headerlink" title="2. 隐式变量"></a>2. 隐式变量</h1><h2 id="2-1-PROJECT-BINARY-DIR"><a href="#2-1-PROJECT-BINARY-DIR" class="headerlink" title="2.1 PROJECT_BINARY_DIR"></a>2.1 PROJECT_BINARY_DIR</h2><h2 id="2-2-PROJECT-SOURCE-DIR"><a href="#2-2-PROJECT-SOURCE-DIR" class="headerlink" title="2.2 PROJECT_SOURCE_DIR"></a>2.2 PROJECT_SOURCE_DIR</h2>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/01/RESET/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1627,183 +1791,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/01/操作系统-调度/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Clelo4">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Clelo4's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/01/操作系统-调度/" itemprop="url">操作系统_调度</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-01T21:57:07+08:00">
-                2019-02-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/OS/" itemprop="url" rel="index">
-                    <span itemprop="name">OS</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="调度"><a href="#调度" class="headerlink" title="调度"></a>调度</h1><h2 id="三级调度机制：高级调度、中级调度和低级调度"><a href="#三级调度机制：高级调度、中级调度和低级调度" class="headerlink" title="三级调度机制：高级调度、中级调度和低级调度"></a>三级调度机制：高级调度、中级调度和低级调度</h2><h3 id="1-高级调度（作业调度）"><a href="#1-高级调度（作业调度）" class="headerlink" title="1. 高级调度（作业调度）"></a>1. 高级调度（作业调度）</h3><p>作业调度决定外存上后备队列上哪些作业可以调入内存，并为它们创建进程、分配必要的资源，然后将新创建的进程插入到就绪队列，准备运行。</p>
-<p>作业调度决定:</p>
-<pre><code>1) 接纳多少个作业
-2) 接纳哪些作业
-</code></pre><h3 id="2-低级调度（进程调度）"><a href="#2-低级调度（进程调度）" class="headerlink" title="2. 低级调度（进程调度）"></a>2. 低级调度（进程调度）</h3><p>进程调度用于决定就绪队列中的哪些进程可以获得cpu，然后在有分派进程执行把cpu分配给进程的具体操作。</p>
-<p>进程调度有两种方式：</p>
-<pre><code>1) 抢占式
-2) 非抢占式
-</code></pre><h3 id="3-中级调度"><a href="#3-中级调度" class="headerlink" title="3. 中级调度"></a>3. 中级调度</h3><p>挂起和激活，存储器管理中的对换功能。主要目的是为了提高内存的利用率和系统的吞吐量。<br>调度程序</p>
-<p>………</p>
-<h2 id="面向用户的调度性能准则"><a href="#面向用户的调度性能准则" class="headerlink" title="面向用户的调度性能准则"></a>面向用户的调度性能准则</h2><ol>
-<li>周转时间：作业从提交（作业调度进入内存）到完成（得到结果）所经历的时间。包括在等待队列、cpu上执行、就绪队列和阻塞队列中等待时间、结果输出等待。<ul>
-<li>平均周转时间</li>
-<li>平均带圈周转时间 = 周转时间/CPU执行时间</li>
-</ul>
-</li>
-<li>响应时间：用户输入一个请求到系统给出首次响应的时间</li>
-<li>截止时间：开始截止时间和完成截止时间</li>
-<li>公平性</li>
-<li>优先级</li>
-</ol>
-<h2 id="面向系统的调度性能准则"><a href="#面向系统的调度性能准则" class="headerlink" title="面向系统的调度性能准则"></a>面向系统的调度性能准则</h2><ol>
-<li>吞吐量：单位时间内所能完成的作业数。</li>
-<li>处理机利用率：— 大中型主机</li>
-<li>各种设备的均衡利用</li>
-</ol>
-<h2 id="调度算法"><a href="#调度算法" class="headerlink" title="调度算法"></a>调度算法</h2><ol>
-<li>先来先服务FCFS</li>
-<li>短作业（进程）优先调度算法</li>
-<li>高优先级优先调度算法</li>
-<li>高响应比优先调度算法</li>
-<li>基于时间片的轮转调度算法</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1849,7 +1843,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1860,7 +1854,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -1871,7 +1865,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
